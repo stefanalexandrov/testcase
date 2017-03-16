@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>Pexip Case</title>
+
+  </head>
+  <body>
+	
+    <h1>Folder sync</h1>
+    <p id="note"></p>
+
+   
+     Folder to sync:<br>
+     <input type="text" name="firstname" value=".\TestFolder" id="syncFolder">
+     <br>
+     <input type="text" value="localhost" id="host">
+     <br>
+     <input type="submit" value="Set folder" id="syncSubmit">
+     <input type="submit" value="Start server" id="startServer" disabled="disabled">
+     <input type="submit" value="Start client" id="startClient" disabled="disabled">
+
+      <p>
+         
+      </p>
+
+	<script>
+
+        var $ = require("./node_modules/jquery/dist/jquery.js");
+		
+        const server = require('./server.js');
+        const client = require('./client.js');
+        var syncFolder;
+        var remoteHost;
+
+        $(document).ready(function () {
+            $('#syncSubmit').on("click", function () {
+                syncFolder = $('#syncFolder').val();
+                $('#note').text("Syncing folder: " + syncFolder);
+                remoteHost = $('#host').val();
+                $('#startClient').removeAttr("disabled");
+                $('#startServer').removeAttr("disabled");
+                $('#syncSubmit').attr("disabled", "disabled");
+            });
+            $('#startServer').on("click", function () {
+                server.startServer(syncFolder);
+            });
+            $('#startClient').on("click", function () {
+                client.startClient(syncFolder, remoteHost);
+            });
+        });
+
+
+  </script>
+  </body>
+</html>
